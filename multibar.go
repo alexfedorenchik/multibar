@@ -3,7 +3,6 @@ package multibar
 import (
 	"fmt"
 	"reflect"
-	"regexp"
 	"strconv"
 	"strings"
 	"sync"
@@ -163,15 +162,7 @@ func (p *ProgressBar) Update(progress int) {
 }
 
 func prettyTime(t time.Duration) string {
-	re, err := regexp.Compile(`(\d+).(\d+)(\w+)`)
-	if err != nil {
-		return err.Error()
-	}
-	parts := re.FindSubmatch([]byte(t.String()))
-	if len(parts) != 4 {
-		return "---"
-	}
-	return string(parts[1]) + string(parts[3])
+	return t.Round(time.Second).String()
 }
 
 func (b *BarContainer) addedNewlines(count int) {
